@@ -1,0 +1,35 @@
+#!/bin/bash
+
+HOSTNAME="${COLLECTD_HOSTNAME:-`hostname -f`}"
+INTERVAL="${COLLECTD_INTERVAL:-60}"
+
+
+while sleep "$INTERVAL"; do
+  # refresh config in case PID changed
+  source $(dirname $0)/config
+
+  # GC util + count + time
+  JSTAT_RESULTS=(`$JSTAT -gcutil $PID`)
+  echo "PUTVAL \"$HOSTNAME/jvm-gcutil/percent-used_s0\" interval=$INTERVAL N:${JSTAT_RESULTS[11]}"
+  echo "PUTVAL \"$HOSTNAME/jvm-gcutil/percent-used_s1\" interval=$INTERVAL N:${JSTAT_RESULTS[12]}"
+  echo "PUTVAL \"$HOSTNAME/jvm-gcutil/percent-used_e\" interval=$INTERVAL N:${JSTAT_RESULTS[13]}"
+  echo "PUTVAL \"$HOSTNAME/jvm-gcutil/percent-used_p\" interval=$INTERVAL N:${JSTAT_RESULTS[15]}"
+  echo "PUTVAL \"$HOSTNAME/jvm-gcutil/percent-used_o\" interval=$INTERVAL N:${JSTAT_RESULTS[14]}"
+
+  echo "PUTVAL \"$HOSTNAME/jvm-gccount/cache_operation-ygc\" interval=$INTERVAL N:${JSTAT_RESULTS[17]}"
+  echo "PUTVAL \"$HOSTNAME/jvm-gccount/cache_operation-fgc\" interval=$INTERVAL N:${JSTAT_RESULTS[19]}"
+
+  echo "PUTVAL \"$HOSTNAME/jvm-gctime/response_time-ngc\" ${JSTAT_RESULTS[18]/./}"
+  echo "PUTVAL \"$HOSTNAME/jvm-gctime/response_time-ogc\" ${JSTAT_RESULTS[20]/./}"
+  echo "PUTVAL \"$HOSTNAME/jvm-gctime/response_time-mc\" ${JSTAT_RESULTS[21]}/./"
+
+  # GC capacity
+  JSTAT_RESULTS=(`$JSTAT -gccapacity $PID`)
+  echo "PUTVAL \"$HOSTNAME/jvm-gccapacity/bytes-ngc\" ${JSTAT_RESULTS[20]}"
+  echo "PUTVAL \"$HOSTNAME/jvm-gccapacity/bytes-ogc\" ${JSTAT_RESULTS[26]}"
+  echo "PUTVAL \"$HOSTNAME/jvm-gccapacity/bytes-mc\" ${JSTAT_RESULTS[31]}"
+  echo "PUTVAL \"$HOSTNAME/jvm-gccapacity/bytes-s0c\" ${JSTAT_RESULTS[21]}"
+  echo "PUTVAL \"$HOSTNAME/jvm-gccapacity/bytes-s1c\" ${JSTAT_RESULTS[22]}"
+  echo "PUTVAL \"$HOSTNAME/jvm-gccapacity/bytes-ec\" ${JSTAT_RESULTS[23]}"
+done
+

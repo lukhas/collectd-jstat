@@ -1,0 +1,3 @@
+# adapt and rename to config
+PID=$(cat /path/to/the/jvm)
+JSTAT="sudo /usr/bin/jstat"
