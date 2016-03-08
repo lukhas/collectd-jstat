@@ -19,17 +19,17 @@ while sleep "$INTERVAL"; do
   echo "PUTVAL \"$HOSTNAME/jvm-gccount/cache_operation-ygc\" interval=$INTERVAL N:${JSTAT_RESULTS[17]}"
   echo "PUTVAL \"$HOSTNAME/jvm-gccount/cache_operation-fgc\" interval=$INTERVAL N:${JSTAT_RESULTS[19]}"
 
-  echo "PUTVAL \"$HOSTNAME/jvm-gctime/response_time-ngc\" ${JSTAT_RESULTS[18]/./}"
-  echo "PUTVAL \"$HOSTNAME/jvm-gctime/response_time-ogc\" ${JSTAT_RESULTS[20]/./}"
-  echo "PUTVAL \"$HOSTNAME/jvm-gctime/response_time-mc\" ${JSTAT_RESULTS[21]/./}"
+  echo "PUTVAL \"$HOSTNAME/jvm-gctime/response_time-ngc\" interval=$INTERVAL N:${JSTAT_RESULTS[18]/./}"
+  echo "PUTVAL \"$HOSTNAME/jvm-gctime/response_time-ogc\" interval=$INTERVAL N:${JSTAT_RESULTS[20]/./}"
+  echo "PUTVAL \"$HOSTNAME/jvm-gctime/response_time-mc\" interval=$INTERVAL N:${JSTAT_RESULTS[21]/./}"
 
   # GC capacity
   JSTAT_RESULTS=(`$JSTAT -gccapacity $PID`)
-  echo "PUTVAL \"$HOSTNAME/jvm-gccapacity/bytes-ngc\" ${JSTAT_RESULTS[20]}"
-  echo "PUTVAL \"$HOSTNAME/jvm-gccapacity/bytes-ogc\" ${JSTAT_RESULTS[26]}"
-  echo "PUTVAL \"$HOSTNAME/jvm-gccapacity/bytes-mc\" ${JSTAT_RESULTS[31]}"
-  echo "PUTVAL \"$HOSTNAME/jvm-gccapacity/bytes-s0c\" ${JSTAT_RESULTS[21]}"
-  echo "PUTVAL \"$HOSTNAME/jvm-gccapacity/bytes-s1c\" ${JSTAT_RESULTS[22]}"
-  echo "PUTVAL \"$HOSTNAME/jvm-gccapacity/bytes-ec\" ${JSTAT_RESULTS[23]}"
+  echo "PUTVAL \"$HOSTNAME/jvm-gccapacity/bytes-ngc\" interval=$INTERVAL N:${JSTAT_RESULTS[20]}"
+  echo "PUTVAL \"$HOSTNAME/jvm-gccapacity/bytes-ogc\" interval=$INTERVAL N:${JSTAT_RESULTS[26]}"
+  echo "PUTVAL \"$HOSTNAME/jvm-gccapacity/bytes-mc\" interval=$INTERVAL N:${JSTAT_RESULTS[31]}"
+  echo "PUTVAL \"$HOSTNAME/jvm-gccapacity/bytes-s0c\" interval=$INTERVAL N:${JSTAT_RESULTS[21]}"
+  echo "PUTVAL \"$HOSTNAME/jvm-gccapacity/bytes-s1c\" interval=$INTERVAL N:${JSTAT_RESULTS[22]}"
+  echo "PUTVAL \"$HOSTNAME/jvm-gccapacity/bytes-ec\" interval=$INTERVAL N:${JSTAT_RESULTS[23]}"
 done
 
